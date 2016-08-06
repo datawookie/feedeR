@@ -36,7 +36,7 @@ document = '<?xml version="1.0" encoding="windows-1252"?>
 
 test_that("parse RSS feed", {
   feed <<- parse.xml(document)
-  expect_is(feed, "XMLDocumentContent")
+  expect_is(feed, "list")
 })
 
 test_that("identify RSS feed", {
