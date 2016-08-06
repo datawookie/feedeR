@@ -1,0 +1,10 @@
+Package: rss
+Type: Package
+Title: Read RSS feeds from R
+Version: 0.0.1
+Authors@R: person("Andrew", "Collier", email = "andrew@exegetic.biz", role = c("aut", "cre"))
+Description: Retrieve data from RSS feeds.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: RCurl, magrittr, XML

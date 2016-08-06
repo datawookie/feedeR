@@ -1,0 +1,52 @@
+clean.url <- function(url) {
+  url
+}
+
+#' An example of an Atom feed from \url{https://validator.w3.org/feed/docs/atom.html}:
+#'
+#' <?xml version="1.0" encoding="utf-8"?>
+#' <feed xmlns="http://www.w3.org/2005/Atom">
+#'   <title>Example Feed</title>
+#'   <link href="http://example.org/"/>
+#'   <updated>2003-12-13T18:30:02Z</updated>
+#'   <author>
+#'   <name>John Doe</name>
+#'   </author>
+#'   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
+#'   <entry>
+#'     <title>Atom-Powered Robots Run Amok</title>
+#'     <link href="http://example.org/2003/12/13/atom03"/>
+#'     <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+#'     <updated>2003-12-13T18:30:02Z</updated>
+#'     <summary>Some text.</summary>
+#'   </entry>
+#' </feed>
+parse.atom <- function(feed) {
+  print("Atom!")
+}
+
+parse.rss <- function(feed) {
+  print("RSS!")
+}
+
+#' @import RCurl
+#' @import magrittr
+#' @import XML
+read.feed <- function(url) {
+  url <- clean.url(url)
+
+  feed <- url %>% clean.url %>% getURL %>% xmlTreeParse %>% .$doc
+
+  # content <- xmlTreeParse(getURL(feed, .opts=opts))$doc
+
+  # Decide on type of feed and parse appropriately.
+  #
+  if("rss" %in% names(feed$children)) {
+    feed <- parse.rss(feed)
+  } else if (!is.null(names(content$children$feed))) {
+    feed <- parse.atom(feed)
+  }
+
+  feed
+}
+xxx = read.feed("http://feeds.feedburner.com/worldmaritimenews/Ltoh")
