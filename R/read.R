@@ -32,6 +32,8 @@ parse.atom <- function(feed) {
   #
   list(
     title = feed$title,
+    link  = feed[names(feed) == "link"][[2]] %>% unname,
+    updated = parse.date(feed$updated),
     items = bind_rows(lapply(feed[names(feed) == "entry"], function(item) {
       data.frame(
         title = item$title,
@@ -51,6 +53,8 @@ parse.rss <- function(feed) {
   #
   list(
     title = feed$title,
+    link  = feed$link,
+    updated = if(is.null(feed$lastBuildDate)) NA else parse.date(feed$lastBuildDate),
     items = bind_rows(lapply(feed[names(feed) == "item"], function(item) {
       # Notes:
       #
@@ -70,7 +74,7 @@ parse.rss <- function(feed) {
 
 #' @import XML
 parse.xml <- function(xml) {
-  xmlTreeParse(xml)$doc
+  xmlTreeParse(xml)$doc$children
 }
 
 feed.type <- function(feed) {
@@ -82,10 +86,27 @@ feed.type <- function(feed) {
 }
 
 #' @import RCurl
+#' @import dplyr
 feed.read <- function(url) {
-  parse.xml(getURL(clean.url(url)))$children
+  url %>% clean.url %>% getURL %>% parse.xml
 }
 
+#' Extract RSS/Atom feed
+#' @description
+#' Read feed metadata and entries.
+#' @param url URL for the feed.
+#' @return A list containing the following elements:
+#'
+#' - title: Title of the original site.
+#'
+#' - link: A link to the original site.
+#'
+#' - updated: When the feed was last updated.
+#'
+#' - items: A data frame with records for each entry in the feed.
+#' @examples
+#' feed.extract("https://feeds.feedburner.com/RBloggers")
+#' feed.extract("http://journal.r-project.org/rss.atom")
 #' @export
 feed.extract <- function(url) {
   feed <-feed.read(url)
@@ -104,7 +125,3 @@ feed.extract <- function(url) {
 
   feed
 }
-xxx = feed.extract("https://feeds.feedburner.com/RBloggers")
-yyy = feed.extract("http://journal.r-project.org/rss.atom")
-
-# http://fastml.com/atom.xml
