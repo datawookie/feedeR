@@ -1,52 +1,110 @@
+# Ensure that all feed URLs begin with http://.
+#
 clean.url <- function(url) {
-  url
+  paste0("http://", sub("(https?://)?(.*)", "\\2", url))
 }
 
-#' An example of an Atom feed from \url{https://validator.w3.org/feed/docs/atom.html}:
-#'
-#' <?xml version="1.0" encoding="utf-8"?>
-#' <feed xmlns="http://www.w3.org/2005/Atom">
-#'   <title>Example Feed</title>
-#'   <link href="http://example.org/"/>
-#'   <updated>2003-12-13T18:30:02Z</updated>
-#'   <author>
-#'   <name>John Doe</name>
-#'   </author>
-#'   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
-#'   <entry>
-#'     <title>Atom-Powered Robots Run Amok</title>
-#'     <link href="http://example.org/2003/12/13/atom03"/>
-#'     <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
-#'     <updated>2003-12-13T18:30:02Z</updated>
-#'     <summary>Some text.</summary>
-#'   </entry>
-#' </feed>
+parse.date <- function(date) {
+  FORMATS = c(
+    "%a, %d %b %Y %H:%M:%S %z", # Fri, 05 Aug 2016 13:28:00 +0000
+    "%Y-%m-%dT%H:%M:%S %z"      # 2016-07-23T06:16:08-07:00
+  )
+  #
+  # Fix time zone offset: insert space before and remove colon.
+  #
+  date = sub("(?<=[^[:blank:]])([+-])([[:digit:]]{2}):?([[:digit:]]{2})$", " \\1\\2\\3", date, perl = TRUE)
+  #
+  for (fmt in FORMATS) {
+    parsed <- strptime(date, fmt, tz = "UTC")
+    #
+    if (!is.na(parsed)) return(as.POSIXct(parsed))
+  }
+  stop("Unable to parse date.", call. = FALSE)
+}
+
+# ATOM ----------------------------------------------------------------------------------------------------------------
+
+#' @references
+#' \url{https://en.wikipedia.org/wiki/Atom_(standard)}
+#' @import dplyr
 parse.atom <- function(feed) {
-  print("Atom!")
+  feed <- xmlToList(feed$feed)
+  #
+  list(
+    title = feed$title,
+    items = bind_rows(lapply(feed[names(feed) == "entry"], function(item) {
+      data.frame(
+        title = item$title,
+        date  = if(is.null(item$published)) NA else parse.date(item$published),
+        link  = item$link,
+        stringsAsFactors = FALSE
+      )
+    }))
+  )
 }
 
+# RSS -----------------------------------------------------------------------------------------------------------------
+
+#' @import dplyr
 parse.rss <- function(feed) {
-  print("RSS!")
+  feed <- xmlToList(feed$rss[["channel"]])
+  #
+  list(
+    title = feed$title,
+    items = bind_rows(lapply(feed[names(feed) == "item"], function(item) {
+      # Notes:
+      #
+      # - There might also be a "link" field in original item.
+      #
+      data.frame(
+        title = item$title,
+        date  = if(is.null(item$pubDate)) NA else parse.date(item$pubDate),
+        link  = item$origLink,
+        stringsAsFactors = FALSE
+      )
+    }))
+  )
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+
+#' @import XML
+parse.xml <- function(xml) {
+  xmlTreeParse(xml)$doc
+}
+
+feed.type <- function(feed) {
+  if("rss" %in% names(feed)) {
+    return("RSS")
+  } else {
+    return("Atom")
+  }
 }
 
 #' @import RCurl
-#' @import magrittr
-#' @import XML
-read.feed <- function(url) {
-  url <- clean.url(url)
+feed.read <- function(url) {
+  parse.xml(getURL(clean.url(url)))$children
+}
 
-  feed <- url %>% clean.url %>% getURL %>% xmlTreeParse %>% .$doc
-
-  # content <- xmlTreeParse(getURL(feed, .opts=opts))$doc
+#' @export
+feed.extract <- function(url) {
+  feed <-feed.read(url)
 
   # Decide on type of feed and parse appropriately.
   #
-  if("rss" %in% names(feed$children)) {
+  type = feed.type(feed)
+  #
+  if (type == "RSS") {
     feed <- parse.rss(feed)
-  } else if (!is.null(names(content$children$feed))) {
+  } else if (type == "Atom") {
     feed <- parse.atom(feed)
+  } else {
+    stop("Unknown feed type!", .call = FALSE)
   }
 
   feed
 }
-xxx = read.feed("http://feeds.feedburner.com/worldmaritimenews/Ltoh")
+xxx = feed.extract("https://feeds.feedburner.com/RBloggers")
+yyy = feed.extract("http://journal.r-project.org/rss.atom")
+
+# http://fastml.com/atom.xml
