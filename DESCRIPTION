@@ -1,15 +1,15 @@
-Package: rss
+Package: feedeR
 Type: Package
-Title: Read RSS feeds from R
-Version: 0.0.1
+Title: Read RSS/Atom Feeds from R
+Version: 0.0.2
 Authors@R: person("Andrew", "Collier", email = "andrew@exegetic.biz", role = c("aut", "cre"))
-Description: Retrieve data from RSS feeds.
+Description: Retrieve data from RSS/Atom feeds.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
     RCurl,
-    magrittr,
+    dplyr,
     XML
 Suggests:
     testthat
