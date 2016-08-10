@@ -47,9 +47,15 @@ parse.atom <- function(feed) {
 
 # RSS -----------------------------------------------------------------------------------------------------------------
 
+# Entry fields to include:
+#
+# - category
+# - description
+
 #' @import dplyr
 parse.rss <- function(feed) {
   feed <- xmlToList(feed$rss[["channel"]])
+  return(feed)
   #
   list(
     title = feed$title,
@@ -63,7 +69,7 @@ parse.rss <- function(feed) {
       data.frame(
         title = item$title,
         date  = if(is.null(item$pubDate)) NA else parse.date(item$pubDate),
-        link  = item$origLink,
+        link  = if(is.null(item$origLink)) item$link else item$origLink,
         stringsAsFactors = FALSE
       )
     }))
