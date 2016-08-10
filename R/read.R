@@ -1,7 +1,8 @@
-# Ensure that all feed URLs begin with http://.
+# Ensure that all feed URLs begin with http:// or https://.
 #
 clean.url <- function(url) {
-  paste0("http://", sub("(https?://)?(.*)", "\\2", url))
+  # paste0("http://", sub("(https?://)?(.*)", "\\2", url))
+  ifelse(!grepl("^https?://", url), paste("http://", url, sep = "/"), url)
 }
 
 parse.date <- function(date) {
@@ -9,6 +10,10 @@ parse.date <- function(date) {
     "%a, %d %b %Y %H:%M:%S %z", # Fri, 05 Aug 2016 13:28:00 +0000
     "%Y-%m-%dT%H:%M:%S %z"      # 2016-07-23T06:16:08-07:00
   )
+  #
+  # Transform time zone codes.
+  #
+  date = sub("GMT$", "+0000", date)
   #
   # Fix time zone offset: insert space before and remove colon.
   #
@@ -55,17 +60,12 @@ parse.atom <- function(feed) {
 #' @import dplyr
 parse.rss <- function(feed) {
   feed <- xmlToList(feed$rss[["channel"]])
-  return(feed)
   #
   list(
     title = feed$title,
     link  = feed$link,
     updated = if(is.null(feed$lastBuildDate)) NA else parse.date(feed$lastBuildDate),
     items = bind_rows(lapply(feed[names(feed) == "item"], function(item) {
-      # Notes:
-      #
-      # - There might also be a "link" field in original item.
-      #
       data.frame(
         title = item$title,
         date  = if(is.null(item$pubDate)) NA else parse.date(item$pubDate),
