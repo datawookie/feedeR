@@ -10,7 +10,8 @@ LazyData: true
 Imports:
     RCurl,
     dplyr,
-    XML
+    XML,
+    lubridate
 Suggests:
     testthat
 RoxygenNote: 5.0.1

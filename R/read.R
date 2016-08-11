@@ -1,30 +1,28 @@
 # Ensure that all feed URLs begin with http:// or https://.
 #
 clean.url <- function(url) {
-  # paste0("http://", sub("(https?://)?(.*)", "\\2", url))
-  ifelse(!grepl("^https?://", url), paste("http://", url, sep = "/"), url)
+  ifelse(!grepl("^https?://", url), paste("http://", url, sep = ""), url)
 }
 
+#' @import lubridate
 parse.date <- function(date) {
-  FORMATS = c(
-    "%a, %d %b %Y %H:%M:%S %z", # Fri, 05 Aug 2016 13:28:00 +0000
-    "%Y-%m-%dT%H:%M:%S %z"      # 2016-07-23T06:16:08-07:00
-  )
+  FORMATS = c("a, d b Y H:M:S z", "Y-m-d H:M:S z")
   #
   # Transform time zone codes.
   #
   date = sub("GMT$", "+0000", date)
   #
-  # Fix time zone offset: insert space before and remove colon.
+  # Strip out "T" between day and hour (as in "2016-07-23T06:16:08-07:00").
+  #
+  date = sub("([[:digit:]]{2})T([[:digit:]]{2})", "\\1 \\2", date)
+  #
+  # Fix time zone offset: insert space before and remove colon (as in "2016-07-23T06:16:08-07:00")
   #
   date = sub("(?<=[^[:blank:]])([+-])([[:digit:]]{2}):?([[:digit:]]{2})$", " \\1\\2\\3", date, perl = TRUE)
   #
-  for (fmt in FORMATS) {
-    parsed <- strptime(date, fmt, tz = "UTC")
-    #
-    if (!is.na(parsed)) return(as.POSIXct(parsed))
-  }
-  stop("Unable to parse date.", call. = FALSE)
+  parsed = parse_date_time(date, orders = FORMATS, locale = "C")
+  if (is.na(parsed)) stop("Unable to parse date.", call. = FALSE)
+  parsed
 }
 
 # ATOM ----------------------------------------------------------------------------------------------------------------
