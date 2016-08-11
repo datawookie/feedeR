@@ -6,7 +6,7 @@ clean.url <- function(url) {
 
 #' @import lubridate
 parse.date <- function(date) {
-  FORMATS = c("a, d b Y H:M:S z", "Y-m-d H:M:S z")
+  FORMATS = c("a, d b Y H:M:S z", "Y-m-d H:M:S z", "d b Y H:M:S")
   #
   # Transform time zone codes.
   #
@@ -24,6 +24,7 @@ parse.date <- function(date) {
   if (is.na(parsed)) stop("Unable to parse date.", call. = FALSE)
   parsed
 }
+parse.date("11 Aug 2016 13:51:00")
 
 # ATOM ----------------------------------------------------------------------------------------------------------------
 
