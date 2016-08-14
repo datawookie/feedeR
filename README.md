@@ -17,7 +17,7 @@ For a RSS feed:
 ```
 feed.extract("https://feeds.feedburner.com/RBloggers")
 ```
-For an atom feed:
+For an Atom feed:
 ```
 feed.extract("http://journal.r-project.org/rss.atom")
 ```
