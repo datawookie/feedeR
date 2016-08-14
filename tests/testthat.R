@@ -1,4 +1,4 @@
 library(testthat)
-library(rss)
+library(feedeR)
 
-test_check("rss")
+test_check("feedeR")

@@ -4,7 +4,7 @@ clean.url <- function(url) {
   ifelse(!grepl("^https?://", url), paste("http://", url, sep = ""), url)
 }
 
-#' @import lubridate
+#' @importFrom lubridate parse_date_time
 parse.date <- function(date) {
   FORMATS = c("a, d b Y H:M:S z", "Y-m-d H:M:S z", "d b Y H:M:S", "d b Y H:M:S z")
   #
