@@ -4,6 +4,7 @@ Title: Read RSS/Atom Feeds from R
 Version: 0.0.4
 Authors@R: person("Andrew", "Collier", email = "andrew@exegetic.biz", role = c("aut", "cre"))
 Description: Retrieve data from RSS/Atom feeds.
+URL: https://github.com/DataWookie/feedeR
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

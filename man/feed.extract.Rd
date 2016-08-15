@@ -4,10 +4,12 @@
 \alias{feed.extract}
 \title{Extract RSS/Atom feed}
 \usage{
-feed.extract(url)
+feed.extract(url, encoding = integer())
 }
 \arguments{
 \item{url}{URL for the feed.}
+
+\item{encoding}{Explicitly identify the encoding of the content.}
 }
 \value{
 A list containing the following elements:
@@ -26,5 +28,6 @@ Read feed metadata and entries.
 \examples{
 feed.extract("https://feeds.feedburner.com/RBloggers")
 feed.extract("http://journal.r-project.org/rss.atom")
+feed.extract("http://www.valor.com.br/financas/mercados/rss", "ISO-8859-2")
 }
 

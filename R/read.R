@@ -91,14 +91,15 @@ feed.type <- function(feed) {
 
 #' @import RCurl
 #' @import dplyr
-feed.read <- function(url) {
-  url %>% clean.url %>% getURL %>% parse.xml
+feed.read <- function(url, encoding) {
+  url %>% clean.url %>% getURL(.encoding = encoding) %>% parse.xml
 }
 
 #' Extract RSS/Atom feed
 #' @description
 #' Read feed metadata and entries.
 #' @param url URL for the feed.
+#' @param encoding Explicitly identify the encoding of the content.
 #' @return A list containing the following elements:
 #'
 #' - title: Title of the original site.
@@ -111,9 +112,10 @@ feed.read <- function(url) {
 #' @examples
 #' feed.extract("https://feeds.feedburner.com/RBloggers")
 #' feed.extract("http://journal.r-project.org/rss.atom")
+#' feed.extract("http://www.valor.com.br/financas/mercados/rss", "ISO-8859-2")
 #' @export
-feed.extract <- function(url) {
-  feed <-feed.read(url)
+feed.extract <- function(url, encoding = integer()) {
+  feed <-feed.read(url, encoding)
 
   # Decide on type of feed and parse appropriately.
   #
