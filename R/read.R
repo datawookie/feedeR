@@ -78,7 +78,7 @@ parse.rss <- function(feed) {
 
 #' @import XML
 parse.xml <- function(xml) {
-  xmlTreeParse(xml)$doc$children
+  xmlTreeParse(xml, options = NOCDATA)$doc$children
 }
 
 feed.type <- function(feed) {

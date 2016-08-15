@@ -1,7 +1,7 @@
 Package: feedeR
 Type: Package
 Title: Read RSS/Atom Feeds from R
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: person("Andrew", "Collier", email = "andrew@exegetic.biz", role = c("aut", "cre"))
 Description: Retrieve data from RSS/Atom feeds.
 URL: https://github.com/DataWookie/feedeR
