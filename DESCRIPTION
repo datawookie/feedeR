@@ -12,7 +12,8 @@ Imports:
     RCurl,
     dplyr,
     XML,
-    lubridate
+    lubridate,
+    digest
 Suggests:
     testthat
 RoxygenNote: 5.0.1

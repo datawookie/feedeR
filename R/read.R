@@ -25,6 +25,18 @@ parse.date <- function(date) {
   parsed
 }
 
+# RDF -----------------------------------------------------------------------------------------------------------------
+
+# https://en.wikipedia.org/wiki/Resource_Description_Framework
+#
+# Code captured from bendeR project.
+#
+# items <- xmlToList(xml$children$RDF)
+# items <- items[names(items) == "item"]
+# items <- do.call(rbind, lapply(items, function(n) {
+#   data.frame(title = n$title, link = n$link, date = strptime(n$date, "%Y-%m-%dT%H:%M:%S", tz = "UTC"), stringsAsFactors = FALSE)
+# }))
+
 # ATOM ----------------------------------------------------------------------------------------------------------------
 
 #' @references
@@ -113,6 +125,8 @@ feed.read <- function(url, encoding) {
 #' feed.extract("https://feeds.feedburner.com/RBloggers")
 #' feed.extract("http://journal.r-project.org/rss.atom")
 #' feed.extract("http://www.valor.com.br/financas/mercados/rss", "ISO-8859-2")
+#' @import dplyr
+#' @import digest
 #' @export
 feed.extract <- function(url, encoding = integer()) {
   feed <-feed.read(url, encoding)
@@ -129,5 +143,7 @@ feed.extract <- function(url, encoding = integer()) {
     stop("Unknown feed type!", .call = FALSE)
   }
 
-  feed
+  feed$items = mutate(feed$items,
+                      hash = as.character(sapply(link, function(n) {digest(n, algo = "xxhash64")}))
+  )
 }
