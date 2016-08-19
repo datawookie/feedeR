@@ -52,7 +52,8 @@ parse.atom <- function(feed) {
     items = bind_rows(lapply(feed[names(feed) == "entry"], function(item) {
       data.frame(
         title = item$title,
-        date  = if(is.null(item$published)) NA else parse.date(item$published),
+        date  = if(!is.null(item$published)) parse.date(item$published) else
+          if(!is.null(item$updated)) parse.date(item$updated) else NA,
         link  = item$link,
         stringsAsFactors = FALSE
       )
@@ -146,4 +147,5 @@ feed.extract <- function(url, encoding = integer()) {
   feed$items = mutate(feed$items,
                       hash = as.character(sapply(link, function(n) {digest(n, algo = "xxhash64")}))
   )
+  feed
 }
