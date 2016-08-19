@@ -24,18 +24,33 @@ parse.date <- function(date) {
   if (is.na(parsed)) stop("Unable to parse date.", call. = FALSE)
   parsed
 }
+parse.date("2016-08-19T10:32:28+01:00")
 
 # RDF -----------------------------------------------------------------------------------------------------------------
 
-# https://en.wikipedia.org/wiki/Resource_Description_Framework
-#
-# Code captured from bendeR project.
-#
-# items <- xmlToList(xml$children$RDF)
-# items <- items[names(items) == "item"]
-# items <- do.call(rbind, lapply(items, function(n) {
-#   data.frame(title = n$title, link = n$link, date = strptime(n$date, "%Y-%m-%dT%H:%M:%S", tz = "UTC"), stringsAsFactors = FALSE)
-# }))
+#' Parse feeds encoded in RDF/XML.
+#' @references
+#' https://en.wikipedia.org/wiki/RDF/XML
+#' @examples
+#' parse.rdf(feed.read("http://feeds.feedburner.com/oatmealfeed"))
+#' @import dplyr
+parse.rdf <- function(feed) {
+  feed <- xmlToList(feed$RDF)
+  #
+  list(
+    title = feed$channel$title,
+    link = feed$channel$link,
+    updated = parse.date(feed$channel$date),
+    items = bind_rows(lapply(feed[names(feed) == "item"], function(item) {
+      data.frame(
+        title = item$title,
+        date  = parse.date(item$date),
+        link  = item$link,
+        stringsAsFactors = FALSE
+      )
+    }))
+  )
+}
 
 # ATOM ----------------------------------------------------------------------------------------------------------------
 
@@ -97,6 +112,8 @@ parse.xml <- function(xml) {
 feed.type <- function(feed) {
   if("rss" %in% names(feed)) {
     return("RSS")
+  } else if("RDF" %in% names(feed)) {
+    return("RDF")
   } else {
     return("Atom")
   }
@@ -104,11 +121,11 @@ feed.type <- function(feed) {
 
 #' @import RCurl
 #' @import dplyr
-feed.read <- function(url, encoding) {
+feed.read <- function(url, encoding = integer()) {
   url %>% clean.url %>% getURL(.encoding = encoding) %>% parse.xml
 }
 
-#' Extract RSS/Atom feed
+#' Extract data from feeds
 #' @description
 #' Read feed metadata and entries.
 #' @param url URL for the feed.
@@ -122,6 +139,8 @@ feed.read <- function(url, encoding) {
 #' - updated: When the feed was last updated.
 #'
 #' - items: A data frame with records for each entry in the feed.
+#'
+#' - hash: A hash key constructed from the post link. This is intended for easy indexing.
 #' @examples
 #' feed.extract("https://feeds.feedburner.com/RBloggers")
 #' feed.extract("http://journal.r-project.org/rss.atom")
@@ -138,6 +157,8 @@ feed.extract <- function(url, encoding = integer()) {
   #
   if (type == "RSS") {
     feed <- parse.rss(feed)
+  } else if (type == "RDF") {
+    feed <- parse.rdf(feed)
   } else if (type == "Atom") {
     feed <- parse.atom(feed)
   } else {
