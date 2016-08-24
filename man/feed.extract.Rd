@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.R
 \name{feed.extract}
 \alias{feed.extract}
-\title{Extract RSS/Atom feed}
+\title{Extract data from feeds}
 \usage{
 feed.extract(url, encoding = integer())
 }
@@ -21,6 +21,8 @@ A list containing the following elements:
 - updated: When the feed was last updated.
 
 - items: A data frame with records for each entry in the feed.
+
+- hash: A hash key constructed from the post link. This is intended for easy indexing.
 }
 \description{
 Read feed metadata and entries.
