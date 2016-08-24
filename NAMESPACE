@@ -3,5 +3,6 @@
 export(feed.extract)
 import(RCurl)
 import(XML)
+import(digest)
 import(dplyr)
 importFrom(lubridate,parse_date_time)
