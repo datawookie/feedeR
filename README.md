@@ -1,6 +1,6 @@
 ![Feed icon](https://upload.wikimedia.org/wikipedia/en/4/43/Feed-icon.svg)
 
-[![Build Status](https://travis-ci.org/DataWookie/feedeR.svg?branch=master)](https://travis-ci.org/DataWookie/feedeR)
+[![Build Status](https://travis-ci.org/DataWookie/feedeR.svg?branch=master)](https://travis-ci.org/DataWookie/feedeR) [![GitHub version](https://badge.fury.io/gh/DataWookie%2FfeedeR.svg)](https://badge.fury.io/gh/DataWookie%2FfeedeR)
 
 # Feed Reader Package for R
 
