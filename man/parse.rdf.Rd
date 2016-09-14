@@ -6,11 +6,16 @@
 \usage{
 parse.rdf(feed)
 }
+\arguments{
+\item{feed}{The URL of the feed.}
+}
 \description{
 Parse feeds encoded in RDF/XML.
 }
 \examples{
+\dontrun{
 parse.rdf(feed.read("http://feeds.feedburner.com/oatmealfeed"))
+}
 }
 \references{
 https://en.wikipedia.org/wiki/RDF/XML

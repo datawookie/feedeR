@@ -24,15 +24,17 @@ parse.date <- function(date) {
   if (is.na(parsed)) stop("Unable to parse date.", call. = FALSE)
   parsed
 }
-parse.date("2016-08-19T10:32:28+01:00")
 
 # RDF -----------------------------------------------------------------------------------------------------------------
 
 #' Parse feeds encoded in RDF/XML.
+#' @param feed The URL of the feed.
 #' @references
 #' https://en.wikipedia.org/wiki/RDF/XML
 #' @examples
+#' \dontrun{
 #' parse.rdf(feed.read("http://feeds.feedburner.com/oatmealfeed"))
+#' }
 #' @import dplyr
 parse.rdf <- function(feed) {
   feed <- xmlToList(feed$RDF)
@@ -142,14 +144,15 @@ feed.read <- function(url, encoding = integer()) {
 #'
 #' - hash: A hash key constructed from the post link. This is intended for easy indexing.
 #' @examples
+#' \dontrun{
 #' feed.extract("https://feeds.feedburner.com/RBloggers")
 #' feed.extract("http://journal.r-project.org/rss.atom")
 #' feed.extract("http://www.valor.com.br/financas/mercados/rss", "ISO-8859-2")
-#' @import dplyr
+#' }
 #' @import digest
 #' @export
 feed.extract <- function(url, encoding = integer()) {
-  feed <-feed.read(url, encoding)
+  feed <- feed.read(url, encoding)
 
   # Decide on type of feed and parse appropriately.
   #
@@ -164,9 +167,8 @@ feed.extract <- function(url, encoding = integer()) {
   } else {
     stop("Unknown feed type!", .call = FALSE)
   }
-
-  feed$items = mutate(feed$items,
-                      hash = as.character(sapply(link, function(n) {digest(n, algo = "xxhash64")}))
-  )
+  
+  feed$items$hash = as.character(sapply(feed$items$link, function(n) {digest(n, algo = "xxhash64")}))
+  
   feed
 }

@@ -28,8 +28,10 @@ A list containing the following elements:
 Read feed metadata and entries.
 }
 \examples{
+\dontrun{
 feed.extract("https://feeds.feedburner.com/RBloggers")
 feed.extract("http://journal.r-project.org/rss.atom")
 feed.extract("http://www.valor.com.br/financas/mercados/rss", "ISO-8859-2")
+}
 }
 
