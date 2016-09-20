@@ -1,2 +1,9 @@
 language: r
 cache: packages
+# https://docs.travis-ci.com/user/notifications/
+notifications:
+  email:
+    recipients:
+      - andrew@exegetic.biz
+    on_success: always
+    on_failure: always
