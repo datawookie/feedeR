@@ -7,3 +7,8 @@ notifications:
       - andrew@exegetic.biz
     on_success: always
     on_failure: always
+# For test coverage.
+r_github_packages:
+  - jimhester/covr
+after_success:
+  - Rscript -e 'covr::codecov()'
