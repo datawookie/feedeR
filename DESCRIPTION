@@ -5,6 +5,7 @@ Version: 0.0.6
 Authors@R: person("Andrew", "Collier", email = "andrew@exegetic.biz", role = c("aut", "cre"))
 Description: Retrieve data from RSS/Atom feeds.
 URL: https://github.com/DataWookie/feedeR
+BugReports: https://github.com/DataWookie/feedeR/issues
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
