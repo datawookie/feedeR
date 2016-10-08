@@ -1,6 +1,7 @@
 ![Feed icon](https://upload.wikimedia.org/wikipedia/en/4/43/Feed-icon.svg)
-
-[![Build Status](https://travis-ci.org/DataWookie/feedeR.svg?branch=master)](https://travis-ci.org/DataWookie/feedeR) [![GitHub version](https://badge.fury.io/gh/DataWookie%2FfeedeR.svg)](https://badge.fury.io/gh/DataWookie%2FfeedeR) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/feedeR)](https://cran.r-project.org/package=feedeR)
+[![Build Status](https://travis-ci.org/DataWookie/feedeR.svg?branch=master)](https://travis-ci.org/DataWookie/feedeR) [![GitHub version](https://badge.fury.io/gh/DataWookie%2FfeedeR.svg)](https://badge.fury.io/gh/DataWookie%2FfeedeR)
+[![codecov.io](https://codecov.io/github/DataWookie/feedeR/coverage.svg?branch=master)](https://codecov.io/github/DataWookie/feedeR?branch=master)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/feedeR)](https://cran.r-project.org/package=feedeR)
 
 # Feed Reader Package for R
 
