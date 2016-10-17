@@ -6,11 +6,11 @@ clean.url <- function(url) {
 
 #' @importFrom lubridate parse_date_time
 parse.date <- function(date) {
-  FORMATS = c("a, d b Y H:M:S z", "Y-m-d H:M:S z", "d b Y H:M:S", "d b Y H:M:S z")
+  FORMATS = c("a, d b Y H:M:S z", "Y-m-d H:M:S z", "d b Y H:M:S", "d b Y H:M:S z", "a b d H:M:S z Y")
   #
   # Transform time zone codes.
   #
-  date = sub("GMT$", "+0000", date)
+  date = sub("\\b(UTC|GMT)\\b", "+0000", date)
   #
   # Strip out "T" between day and hour (as in "2016-07-23T06:16:08-07:00").
   #
