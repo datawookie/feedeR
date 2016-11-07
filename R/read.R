@@ -64,6 +64,21 @@ parse.rdf <- function(feed) {
 
 # ATOM ----------------------------------------------------------------------------------------------------------------
 
+find.link <- function(links) {
+  if (length(links) == 1) {
+    return(links$link["href"])
+  } else {
+    index = sapply(links, function(n) "title" %in% names(n))
+    if (any(index)) {
+      return(links[index]$link["href"])
+    }
+    index = sapply(links, function(n) n["rel"] == "alternate")
+    if (any(index)) {
+      return(links[index]$link["href"])
+    }
+  }
+}
+
 #' @references
 #' \url{https://en.wikipedia.org/wiki/Atom_(standard)}
 #' @import dplyr
@@ -79,14 +94,7 @@ parse.atom <- function(feed) {
         title = item$title,
         date  = if(!is.null(item$published)) parse.date(item$published) else
           if(!is.null(item$updated)) parse.date(item$updated) else NA,
-        link  = if(!is.null(item$origLink)) item$origLink else {
-          links = item[names(item) == "link"]
-          if (length(links) == 1) {
-            links$link["href"]
-          } else {
-            links[sapply(links, function(n) "title" %in% names(n))]$link["href"]
-          }
-        },
+        link  = if(!is.null(item$origLink)) item$origLink else find.link(item[names(item) == "link"]),
         stringsAsFactors = FALSE
       )
     }))
