@@ -79,13 +79,17 @@ parse.atom <- function(feed) {
         title = item$title,
         date  = if(!is.null(item$published)) parse.date(item$published) else
           if(!is.null(item$updated)) parse.date(item$updated) else NA,
-        # link  = item$link,
-        link  = if(!is.null(item$origLink)) item$origLink else item$link,
+        link  = if(!is.null(item$origLink)) item$origLink else {
+          links = item[names(item) == "link"]
+          links[sapply(links, function(n) "title" %in% names(n))]$link["href"]
+        },
         stringsAsFactors = FALSE
       )
     }))
   )
 }
+
+
 
 # RSS -----------------------------------------------------------------------------------------------------------------
 
