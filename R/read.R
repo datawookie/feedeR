@@ -25,6 +25,14 @@ parse.date <- function(date) {
   parsed
 }
 
+locate.link <- function(text) {
+  grepl("^https?://", text)
+}
+
+filter.link <- function(text) {
+  text[locate.link(text)]
+}
+
 # RDF -----------------------------------------------------------------------------------------------------------------
 
 #' Parse feeds encoded in RDF/XML.
@@ -64,14 +72,15 @@ parse.atom <- function(feed) {
   #
   list(
     title = feed$title,
-    link  = feed[names(feed) == "link"][[2]] %>% unname,
+    link  = feed[names(feed) == "link"][[2]] %>% unname %>% filter.link,
     updated = parse.date(feed$updated),
     items = bind_rows(lapply(feed[names(feed) == "entry"], function(item) {
       data.frame(
         title = item$title,
         date  = if(!is.null(item$published)) parse.date(item$published) else
           if(!is.null(item$updated)) parse.date(item$updated) else NA,
-        link  = item$link,
+        # link  = item$link,
+        link  = item$origLink,
         stringsAsFactors = FALSE
       )
     }))
@@ -108,6 +117,8 @@ parse.rss <- function(feed) {
 
 #' @import XML
 parse.xml <- function(xml) {
+  if (nchar(xml) == 0) stop("XML document is empty!")
+  #
   xmlTreeParse(xml, options = NOCDATA)$doc$children
 }
 
