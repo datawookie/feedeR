@@ -81,7 +81,11 @@ parse.atom <- function(feed) {
           if(!is.null(item$updated)) parse.date(item$updated) else NA,
         link  = if(!is.null(item$origLink)) item$origLink else {
           links = item[names(item) == "link"]
-          links[sapply(links, function(n) "title" %in% names(n))]$link["href"]
+          if (length(links) == 1) {
+            links$link["href"]
+          } else {
+            links[sapply(links, function(n) "title" %in% names(n))]$link["href"]
+          }
         },
         stringsAsFactors = FALSE
       )
