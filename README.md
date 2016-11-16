@@ -6,6 +6,7 @@
 [![GitHub version](https://badge.fury.io/gh/DataWookie%2FfeedeR.svg)](https://badge.fury.io/gh/DataWookie%2FfeedeR)
 [![codecov.io](https://codecov.io/github/DataWookie/feedeR/coverage.svg?branch=master)](https://codecov.io/github/DataWookie/feedeR?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/feedeR)](https://cran.r-project.org/package=feedeR)
+![CRAN version](http://www.r-pkg.org/badges/version/feedeR)
 
 # Feed Reader Package for R
 
