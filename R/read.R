@@ -5,7 +5,7 @@ clean.url <- function(url) {
 }
 
 #' @importFrom lubridate parse_date_time
-#' @importFrom stringr str_detect
+#' @import stringr
 parse.date <- function(date) {
   FORMATS = c("a, d b Y H:M:S z", "Y-m-d H:M:S z", "d b Y H:M:S", "d b Y H:M:S z", "a b d H:M:S z Y")
   #
@@ -23,24 +23,20 @@ parse.date <- function(date) {
   #
   
   # Replace wrong days and month names (names in another language)
-  wrong_day_names <- c("dom", "seg", "ter", "qua", "qui", "sex", "sab")
-  right_day_names <- c("sun", "mon", "tue", "wed", "thu", "fri", "sat")
+  convertMonthNames <- c(
+    "jan" = "jan", "feb" = "fev", "mar" = "mar", "apr" = "abr", "may" = "mai", "jun" = "jun",
+    "jul" = "jul", "aug" = "ago", "sep" = "set", "oct" = "out", "nov" = "nov", "dec" = "dez"
+  )
 
-  wrong_month_names <- c("Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez")
-  right_month_names <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
-  
-  
+  date <- str_to_lower(date)
+
+  ind <- str_detect(date, convertMonthNames)
+
   # check if date string contains wrong day or month names
-  ind_days <- str_detect(date, wrong_day_names)
-  ind_months <- str_detect(date, wrong_month_names)
-
-  if (sum(ind_days) > 0) {
-    date <- sub(wrong_day_names[ind_days], right_day_names[ind_days], date)
+  if (sum(ind) > 0) {
+    date <- sub(convertMonthNames[ind], names(convertMonthNames)[ind], date)
   }
 
-  if (sum(ind_months) > 0) {
-    date <- sub(wrong_month_names[ind_months], right_month_names[ind_months], date)
-  }
   
   parsed = parse_date_time(date, orders = FORMATS, locale = "C")
   if (is.na(parsed)) stop("Unable to parse date.", call. = FALSE)
