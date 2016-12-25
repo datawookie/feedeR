@@ -5,7 +5,6 @@ clean.url <- function(url) {
 }
 
 #' @importFrom lubridate parse_date_time
-#' @import stringr
 parse.date <- function(date) {
   FORMATS = c("a, d b Y H:M:S z", "Y-m-d H:M:S z", "d b Y H:M:S", "d b Y H:M:S z", "a b d H:M:S z Y")
   #
@@ -21,23 +20,6 @@ parse.date <- function(date) {
   #
   date = sub("(?<=[^[:blank:]])([+-])([[:digit:]]{2}):?([[:digit:]]{2})$", " \\1\\2\\3", date, perl = TRUE)
   #
-  
-  # Replace wrong days and month names (names in another language)
-  convertMonthNames <- c(
-    "jan" = "jan", "feb" = "fev", "mar" = "mar", "apr" = "abr", "may" = "mai", "jun" = "jun",
-    "jul" = "jul", "aug" = "ago", "sep" = "set", "oct" = "out", "nov" = "nov", "dec" = "dez"
-  )
-
-  date <- str_to_lower(date)
-
-  ind <- str_detect(date, convertMonthNames)
-
-  # check if date string contains wrong day or month names
-  if (sum(ind) > 0) {
-    date <- sub(convertMonthNames[ind], names(convertMonthNames)[ind], date)
-  }
-
-  
   parsed = parse_date_time(date, orders = FORMATS, locale = "C")
   if (is.na(parsed)) stop("Unable to parse date.", call. = FALSE)
   parsed
