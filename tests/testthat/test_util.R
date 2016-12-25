@@ -26,3 +26,11 @@ test_that("handling of date/time like '5 Aug 2016 13:28:00'", {
 test_that("handling of date/time like '5 Aug 2016 10:28:00 -0300'", {
   expect_equal(parse.date("5 Aug 2016 10:28:00 -0300"), as.POSIXct(as.POSIXct("2016-08-05 13:28:00", tz = "UTC")))
 })
+
+# - http://feeds.feedburner.com/analisemacro?format=xml
+#
+# Dates in posts are fine but <lastBuildDate> has funky format.
+#
+test_that("handling of date/time like 'sáb, 24 dez 2016 13:40:30 +0000'", {
+  expect_equal(parse.date("5 Aug 2016 10:28:00 -0300"), as.POSIXct(as.POSIXct("2016-08-05 13:28:00 UTC", tz = "UTC")))
+})

@@ -14,8 +14,7 @@ Imports:
     dplyr,
     XML,
     lubridate,
-    digest,
-    stringr
+    digest
 Suggests:
     testthat
 RoxygenNote: 5.0.1
