@@ -6,7 +6,7 @@ clean.url <- function(url) {
 
 #' @importFrom lubridate parse_date_time
 parse.date <- function(date) {
-  FORMATS = c("a, d b Y H:M:S z", "Y-m-d H:M:S z", "d b Y H:M:S", "d b Y H:M:S z", "a b d H:M:S z Y")
+  FORMATS = c("a, d b Y H:M:S z", "a, d b Y H:M z", "Y-m-d H:M:S z", "d b Y H:M:S", "d b Y H:M:S z", "a b d H:M:S z Y")
   #
   # Transform time zone codes.
   #
