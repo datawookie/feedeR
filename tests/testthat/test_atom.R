@@ -34,7 +34,6 @@ test_that("parse feed with origLink", {
 })
 
 test_that("parse feed without origLink", {
-  expect_is(feed.extract("http://www.twotorials.com/feeds/posts/default"), "list")
   expect_is(feed.extract("http://fastml.com/atom.xml"), "list")
   expect_is(feed.extract("http://feeds.feedburner.com/FeaturedPosts-Dataviz?format=xml"), "list")
 })
