@@ -42,3 +42,7 @@ test_that("parse RSS feed", {
 test_that("identify RSS feed", {
   expect_equal(feed.type(feed), "RSS")
 })
+
+test_that("feed which requires valid User-Agent", {
+  expect_is(feed.extract("https://www.glassdoor.com/rss/reviews.rss?id=7745"), "list")
+})
