@@ -1,3 +1,5 @@
+USERAGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36"
+
 # Ensure that all feed URLs begin with http:// or https://.
 #
 clean.url <- function(url) {
@@ -162,7 +164,7 @@ feed.type <- function(feed) {
 #' @import RCurl
 #' @import dplyr
 feed.read <- function(url, encoding = integer()) {
-  url %>% clean.url %>% getURL(.encoding = encoding) %>% parse.xml
+  url %>% clean.url %>% getURL(.encoding = encoding, httpheader = c('User-Agent' = USERAGENT)) %>% parse.xml
 }
 
 #' Extract data from feeds
