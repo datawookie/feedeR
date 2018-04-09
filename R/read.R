@@ -8,7 +8,9 @@ clean.url <- function(url) {
 
 #' @importFrom lubridate parse_date_time
 parse.date <- function(date) {
-  FORMATS = c("a, d b Y H:M:S z", "a, d b Y H:M z", "Y-m-d H:M:S z", "d b Y H:M:S", "d b Y H:M:S z", "a b d H:M:S z Y")
+  if (is.null(date)) return(NA)
+
+  FORMATS = c("a, d b Y H:M:S z", "a, d b Y H:M z", "Y-m-d H:M:S z", "d b Y H:M:S", "d b Y H:M:S z", "a b d H:M:S z Y", "Y-m-d")
   #
   # Transform time zone codes.
   #
@@ -130,7 +132,7 @@ parse.rss <- function(feed) {
   list(
     title = feed$title,
     link  = feed$link,
-    updated = if(is.null(feed$lastBuildDate)) NA else parse.date(feed$lastBuildDate),
+    updated = parse.date(feed$lastBuildDate),
     items = bind_rows(lapply(feed[names(feed) == "item"], function(item) {
       data.frame(
         title = item$title,
