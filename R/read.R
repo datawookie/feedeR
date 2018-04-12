@@ -10,7 +10,7 @@ clean.url <- function(url) {
 parse.date <- function(date) {
   if (is.null(date)) return(NA)
 
-  FORMATS = c("a, d b Y H:M:S z", "a, d b Y H:M z", "Y-m-d H:M:S z", "d b Y H:M:S", "d b Y H:M:S z", "a b d H:M:S z Y", "Y-m-d")
+  FORMATS = c("a, d b Y H:M:S z", "a, d b Y H:M z", "Y-m-d H:M:S z", "d b Y H:M:S", "d b Y H:M:S z", "a b d H:M:S z Y", "Y-m-d", "d b! Y")
   #
   # Transform time zone codes.
   #
