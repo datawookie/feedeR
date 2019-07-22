@@ -1,5 +1,3 @@
-USERAGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36"
-
 # Ensure that all feed URLs begin with http:// or https://.
 #
 clean.url <- function(url) {
@@ -146,13 +144,6 @@ parse.rss <- function(feed) {
 
 # ---------------------------------------------------------------------------------------------------------------------
 
-#' @import XML
-parse.xml <- function(xml) {
-  if (nchar(xml) == 0) stop("XML document is empty!")
-  #
-  xmlTreeParse(xml, options = NOCDATA)$doc$children
-}
-
 feed.type <- function(feed) {
   if("rss" %in% names(feed)) {
     return("RSS")
@@ -163,17 +154,20 @@ feed.type <- function(feed) {
   }
 }
 
-#' @import RCurl
 #' @import dplyr
-feed.read <- function(url, encoding = integer()) {
-  url %>% clean.url %>% getURL(.encoding = encoding, httpheader = c('User-Agent' = USERAGENT)) %>% parse.xml
+#' @import XML
+feed.read <- function(url) {
+  XMLFILE = tempfile(fileext = "-index.xml")
+
+  download.file(url = clean.url(url), XMLFILE, quiet = TRUE)
+
+  xmlTreeParse(XMLFILE, options = NOCDATA)$doc$children
 }
 
 #' Extract data from feeds
 #' @description
 #' Read feed metadata and entries.
 #' @param url URL for the feed.
-#' @param encoding Explicitly identify the encoding of the content.
 #' @return A list containing the following elements:
 #'
 #' - title: Title of the original site.
@@ -193,8 +187,8 @@ feed.read <- function(url, encoding = integer()) {
 #' }
 #' @import digest
 #' @export
-feed.extract <- function(url, encoding = integer()) {
-  feed <- feed.read(url, encoding)
+feed.extract <- function(url) {
+  feed <- feed.read(url)
 
   # Decide on type of feed and parse appropriately.
   #

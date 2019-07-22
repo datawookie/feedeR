@@ -20,4 +20,3 @@ parse.rdf(feed.read("http://feeds.feedburner.com/oatmealfeed"))
 \references{
 https://en.wikipedia.org/wiki/RDF/XML
 }
-
