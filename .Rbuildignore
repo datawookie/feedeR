@@ -3,3 +3,4 @@
 NOTES.txt
 .travis.yml
 ^README\.Rmd$
+^\.travis\.yml$
