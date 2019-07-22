@@ -18,8 +18,8 @@ sticker(here::here("inst/hex/rss.png"),
         p_y = 0.45,
         p_color = "#ffffff",
         p_family = "roboto_slab",
-        # Heck
-        h_fill = "#3498db",
+        # Hex
+        h_fill = "#e4722d",
         h_color = "#000000",
         # Spotlight
         # spotlight = TRUE,
