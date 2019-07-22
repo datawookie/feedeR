@@ -21,7 +21,7 @@ document = '<?xml version="1.0" encoding="utf-8"?>
 </feed>'
 
 test_that("parse Atom feed", {
-  feed <<- parse.xml(document)
+  feed <<- feed.read(document)
   expect_is(feed, "list")
 })
 

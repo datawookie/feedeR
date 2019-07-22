@@ -5,7 +5,7 @@ URL = "http://feeds.nature.com/nplants/rss/current"
 document = paste(readLines(URL), collapse = "\n")
 
 test_that("parse RDF feed", {
-  feed <<- parse.xml(document)
+  feed <<- feed.read(document)
   expect_is(feed, "list")
 })
 

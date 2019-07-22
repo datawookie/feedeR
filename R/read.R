@@ -156,12 +156,8 @@ feed.type <- function(feed) {
 
 #' @import dplyr
 #' @import XML
-feed.read <- function(url) {
-  XMLFILE = tempfile(fileext = "-index.xml")
-
-  download.file(url = clean.url(url), XMLFILE, quiet = TRUE)
-
-  xmlTreeParse(XMLFILE, options = NOCDATA)$doc$children
+feed.read <- function(xml) {
+  xmlTreeParse(xml, options = NOCDATA)$doc$children
 }
 
 #' Extract data from feeds
@@ -188,7 +184,11 @@ feed.read <- function(url) {
 #' @import digest
 #' @export
 feed.extract <- function(url) {
-  feed <- feed.read(url)
+  XMLFILE = tempfile(fileext = "-index.xml")
+
+  download.file(url = clean.url(url), XMLFILE, quiet = TRUE)
+
+  feed <- feed.read(XMLFILE)
 
   # Decide on type of feed and parse appropriately.
   #
