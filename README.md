@@ -1,8 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-![Feed
-icon](https://upload.wikimedia.org/wikipedia/en/4/43/Feed-icon.svg)
+# feedeR <img src="man/figures/feedeR-hex.png" align="right" alt="" width="120" />
+
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/feedeR)](https://cran.r-project.org/package=feedeR)
+<!-- badges: end -->
 
 <br>
 
