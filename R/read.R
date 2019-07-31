@@ -92,6 +92,14 @@ find.link <- function(links) {
   }
 }
 
+get_title <- function(title) {
+  if (class(title) == "list" && "text" %in% names(title)) {
+    title$text
+  } else {
+    title
+  }
+}
+
 #' @references
 #' \url{https://en.wikipedia.org/wiki/Atom_(standard)}
 #' @import dplyr
@@ -99,12 +107,12 @@ parse.atom <- function(feed) {
   feed <- xmlToList(feed$feed)
   #
   list(
-    title = feed$title,
+    title = get_title(feed$title),
     link  = feed[names(feed) == "link"][[2]] %>% unname %>% filter.link,
     updated = parse.date(feed$updated),
     items = bind_rows(lapply(feed[names(feed) == "entry"], function(item) {
       data.frame(
-        title = item$title,
+        title = get_title(item$title),
         date  = if(!is.null(item$published)) parse.date(item$published) else
           if(!is.null(item$updated)) parse.date(item$updated) else NA,
         link  = if(!is.null(item$origLink)) item$origLink else find.link(item[names(item) == "link"]),
@@ -113,8 +121,6 @@ parse.atom <- function(feed) {
     }))
   )
 }
-
-
 
 # RSS -----------------------------------------------------------------------------------------------------------------
 
