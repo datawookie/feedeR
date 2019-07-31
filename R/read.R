@@ -192,7 +192,7 @@ feed.read <- function(xml) {
 feed.extract <- function(url) {
   XMLFILE = tempfile(fileext = "-index.xml")
 
-  download.file(url = clean.url(url), XMLFILE, quiet = TRUE)
+  download.file(url = clean.url(url), XMLFILE, quiet = TRUE, method = "curl")
 
   feed <- feed.read(XMLFILE)
 
