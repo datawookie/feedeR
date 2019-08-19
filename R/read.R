@@ -163,7 +163,7 @@ feed.type <- function(feed) {
 #' @import dplyr
 #' @import XML
 feed.read <- function(xml) {
-  xmlTreeParse(xml, options = NOCDATA)$doc$children
+  xmlTreeParse(xml, options = NOCDATA, asText = TRUE)$doc$children
 }
 
 #' Extract data from feeds
@@ -188,6 +188,8 @@ feed.read <- function(xml) {
 #' feed.extract("http://www.valor.com.br/financas/mercados/rss", "ISO-8859-2")
 #' }
 #' @import digest
+#' @import readr
+#' @import stringr
 #' @export
 feed.extract <- function(url) {
   XMLFILE = tempfile(fileext = "-index.xml")
@@ -200,7 +202,13 @@ feed.extract <- function(url) {
     quiet = TRUE
   )
 
-  feed <- feed.read(XMLFILE)
+  XML = read_file(XMLFILE)
+
+  # Replace raw "&" in text (which was causing "xmlParseEntityRef: no name").
+  #
+  XML = str_replace_all(XML, "(?<= )&(?= )", "&amp;")
+
+  feed <- feed.read(XML)
 
   # Decide on type of feed and parse appropriately.
   #

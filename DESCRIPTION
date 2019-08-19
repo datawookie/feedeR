@@ -13,7 +13,9 @@ Imports:
     dplyr,
     XML,
     lubridate,
-    digest
+    digest,
+    readr,
+    stringr
 Suggests:
     testthat
 RoxygenNote: 6.1.1
