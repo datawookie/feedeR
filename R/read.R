@@ -138,9 +138,14 @@ parse.rss <- function(feed) {
     link  = feed$link,
     updated = parse.date(feed$lastBuildDate),
     items = bind_rows(lapply(feed[names(feed) == "item"], function(item) {
+      if (is.null(item$title)) return(NULL)
+      #
+      date = if(is.null(item$pubDate)) NA else parse.date(item$pubDate)
+      if (is.na(suppressWarnings(as.integer(date)))) return(NULL)
+      #
       data.frame(
         title = item$title,
-        date  = if(is.null(item$pubDate)) NA else parse.date(item$pubDate),
+        date  = date,
         link  = if(is.null(item$origLink)) item$link else item$origLink,
         stringsAsFactors = FALSE
       )
