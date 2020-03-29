@@ -1,5 +1,9 @@
 language: r
 cache: packages
+branches:
+  only:
+  - master
+  - dev
 # https://docs.travis-ci.com/user/notifications/
 notifications:
   email:
