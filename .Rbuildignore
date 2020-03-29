@@ -4,3 +4,6 @@ NOTES.txt
 .travis.yml
 ^README\.Rmd$
 ^\.travis\.yml$
+^feedeR\.Rcheck$
+^feedeR.*\.tar\.gz$
+^feedeR.*\.tgz$
