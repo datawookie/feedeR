@@ -1,7 +1,3 @@
-feed.read <- function(xml) {
-  xmlTreeParse(xml, options = NOCDATA, asText = TRUE)$doc$children
-}
-
 #' Extract data from feeds
 #' @description
 #' Read feed metadata and entries.
@@ -41,7 +37,7 @@ feed.extract <- function(url) {
   #
   XML = str_replace_all(XML, "(?<= )&(?= )", "&amp;")
 
-  feed <- feed.read(XML)
+  feed <- xmlTreeParse(xml, options = NOCDATA, asText = TRUE)$doc$children
 
   # Decide on type of feed and parse appropriately.
   #
