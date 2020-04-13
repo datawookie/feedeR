@@ -36,3 +36,8 @@ For an Atom feed:
 ```
 feed.extract("http://journal.r-project.org/rss.atom")
 ```
+
+## Similar Projects
+
+- The [{scifetch}](https://github.com/yufree/scifetch) package has `getrss()`.
+- The [{tidyRSS}](https://cran.r-project.org/web/packages/tidyRSS/index.html) package.
