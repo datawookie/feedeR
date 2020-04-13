@@ -18,7 +18,7 @@ parse.rdf <- function(feed) {
         title = item$title,
         date  = parse.date(item$date),
         link  = item$link,
-        description = NA,
+        description = item$encoded,
         stringsAsFactors = FALSE
       )
     }))
