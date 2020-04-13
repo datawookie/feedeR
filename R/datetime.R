@@ -1,4 +1,3 @@
-#' @importFrom lubridate parse_date_time
 parse.date <- function(date) {
   if (is.null(date)) return(NA)
   
