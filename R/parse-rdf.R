@@ -14,10 +14,11 @@ parse.rdf <- function(feed) {
     link = feed$channel$link,
     updated = parse.date(feed$channel$date),
     items = bind_rows(lapply(feed[names(feed) == "item"], function(item) {
-      data.frame(
+      tibble(
         title = item$title,
         date  = parse.date(item$date),
         link  = item$link,
+        description = NA,
         stringsAsFactors = FALSE
       )
     }))

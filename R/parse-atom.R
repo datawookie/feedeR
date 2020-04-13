@@ -31,11 +31,12 @@ parse.atom <- function(feed) {
     link  = feed[names(feed) == "link"][[2]] %>% unname %>% filter.link,
     updated = parse.date(feed$updated),
     items = bind_rows(lapply(feed[names(feed) == "entry"], function(item) {
-      data.frame(
+      tibble(
         title = get_title(item$title),
         date  = if(!is.null(item$published)) parse.date(item$published) else
           if(!is.null(item$updated)) parse.date(item$updated) else NA,
         link  = if(!is.null(item$origLink)) item$origLink else find.link(item[names(item) == "link"]),
+        description = NA,
         stringsAsFactors = FALSE
       )
     }))
