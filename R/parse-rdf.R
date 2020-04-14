@@ -7,19 +7,18 @@
 #' parse.rdf(feed.read("http://feeds.feedburner.com/oatmealfeed"))
 #' }
 parse.rdf <- function(feed) {
-  feed <- xmlToList(feed$RDF)
+  feed <- feed$RDF
   #
   list(
-    title = feed$channel$title,
-    link = feed$channel$link,
-    updated = parse.date(feed$channel$date),
+    title = feed$channel$title[[1]],
+    link = feed$channel$link[[1]],
+    updated = parse.date(feed$channel$date[[1]]),
     items = bind_rows(lapply(feed[names(feed) == "item"], function(item) {
       tibble(
-        title = item$title,
-        date  = parse.date(item$date),
-        link  = item$link,
-        description = item$encoded,
-        stringsAsFactors = FALSE
+        title = item$title[[1]],
+        date  = parse.date(item$date[[1]]),
+        link  = item$link[[1]],
+        description = item$encoded[[1]] %>% str_trim()
       )
     }))
   )
