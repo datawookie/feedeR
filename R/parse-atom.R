@@ -26,9 +26,14 @@ get_title <- function(title) {
 parse.atom <- function(feed) {
   feed <- feed$feed
   #
+  for (link in feed[names(feed) == "link"]) {
+    link = attributes(link)
+    if (link$rel == "self") break
+  }
+  #
   list(
     title = get_title(feed$title[[1]]),
-    link  = feed[names(feed) == "link"][[2]] %>% unname %>% attributes() %>% .$href,
+    link  = link$href,
     updated = parse.date(feed$updated[[1]]),
     items = bind_rows(lapply(feed[names(feed) == "entry"], function(item) {
       tibble(

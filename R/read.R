@@ -40,21 +40,12 @@ feed.extract <- function(url, encoding = "UTF-8") {
   # Replace raw "&" in text (which was causing "xmlParseEntityRef: no name").
   #
   XML = str_replace_all(XML, "(?<= )&(?= )", "&amp;")
-
-  # feed <- xmlTreeParse(
-  #   XML,
-  #   options = NOCDATA,
-  #   asText = TRUE,
-  #   encoding = encoding
-  # )
   
   feed <- read_xml(
     XML,
     options = NOCDATA,
     encoding = encoding
   )
-  
-  # feed <- feed$doc$children
   
   feed <- as_list(feed)
 
