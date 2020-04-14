@@ -4,7 +4,7 @@
 # - description
 #
 parse.rss <- function(feed) {
-  feed <- xmlToList(feed$rss[["channel"]])
+  feed <- feed$rss[["channel"]]
   #
   list(
     title = feed$title,
@@ -17,11 +17,10 @@ parse.rss <- function(feed) {
       if (is.na(suppressWarnings(as.integer(date)))) return(NULL)
       #
       tibble(
-        title = item$title,
+        title = item$title[[1]],
         date  = date,
-        link  = if(is.null(item$origLink)) item$link else item$origLink,
-        description = item$description,
-        stringsAsFactors = FALSE
+        link  = if(is.null(item$origLink)) item$link[[1]] else item$origLink[[1]],
+        description = item$description[[1]]
       )
     }))
   )

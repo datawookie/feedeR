@@ -41,18 +41,26 @@ feed.extract <- function(url, encoding = "UTF-8") {
   #
   XML = str_replace_all(XML, "(?<= )&(?= )", "&amp;")
 
-  feed <- xmlTreeParse(
+  # feed <- xmlTreeParse(
+  #   XML,
+  #   options = NOCDATA,
+  #   asText = TRUE,
+  #   encoding = encoding
+  # )
+  
+  feed <- read_xml(
     XML,
     options = NOCDATA,
-    asText = TRUE,
     encoding = encoding
   )
   
-  feed <- feed$doc$children
+  # feed <- feed$doc$children
+  
+  feed <- as_list(feed)
 
   # Decide on type of feed and parse appropriately.
   #
-  type = feed.type(feed)
+  type = feed_type(feed)
   #
   if (type == "RSS") {
     feed <- parse.rss(feed)
