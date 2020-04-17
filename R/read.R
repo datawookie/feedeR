@@ -1,3 +1,12 @@
+feed_read <- function(xml) {
+  feed <- read_xml(
+    xml,
+    options = "NOCDATA",
+    encoding = encoding
+  ) %>%
+    as_list()
+}
+
 #' Extract data from feeds
 #' @description
 #' Read feed metadata and entries.
@@ -41,13 +50,7 @@ feed.extract <- function(url, encoding = "UTF-8") {
   #
   XML = str_replace_all(XML, "(?<= )&(?= )", "&amp;")
   
-  feed <- read_xml(
-    XML,
-    options = "NOCDATA",
-    encoding = encoding
-  )
-  
-  feed <- as_list(feed)
+  feed <- feed_read(XML)
 
   # Decide on type of feed and parse appropriately.
   #

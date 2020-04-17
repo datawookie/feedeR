@@ -20,14 +20,14 @@ document = '<?xml version="1.0" encoding="utf-8"?>
   </entry>
 </feed>'
 
-# test_that("parse Atom feed", {
-#   feed <<- feed.read(document)
-#   expect_is(feed, "list")
-# })
-# 
-# test_that("identify Atom feed", {
-#   expect_equal(feed.type(feed), "Atom")
-# })
+test_that("parse Atom feed", {
+  feed <<- feed_read(document)
+  expect_is(feed, "list")
+})
+
+test_that("identify Atom feed", {
+  expect_equal(feed_type(feed), "Atom")
+})
 
 test_that("parse feed with origLink", {
   expect_is(feed.extract("http://feeds.feedburner.com/GeekingWithGreg"), "list")
