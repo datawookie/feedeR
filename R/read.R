@@ -2,6 +2,7 @@
 #' @description
 #' Read feed metadata and entries.
 #' @param url URL for the feed.
+#' @param encoding Encoding use to read feed.
 #' @return A list containing the following elements:
 #'
 #' - title: Title of the original site.
@@ -20,7 +21,7 @@
 #' feed.extract("http://www.valor.com.br/financas/mercados/rss", "ISO-8859-2")
 #' }
 #' @export
-feed.extract <- function(url) {
+feed.extract <- function(url, encoding = "UTF-8") {
   XMLFILE = tempfile(fileext = "-index.xml")
 
   options(HTTPUserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36")
@@ -31,17 +32,26 @@ feed.extract <- function(url) {
     quiet = TRUE
   )
 
-  XML = read_file(XMLFILE)
+  XML = read_file(
+    XMLFILE,
+    locale = locale(encoding = encoding)
+  )
 
   # Replace raw "&" in text (which was causing "xmlParseEntityRef: no name").
   #
   XML = str_replace_all(XML, "(?<= )&(?= )", "&amp;")
-
-  feed <- xmlTreeParse(XML, options = NOCDATA, asText = TRUE)$doc$children
+  
+  feed <- read_xml(
+    XML,
+    options = NOCDATA,
+    encoding = encoding
+  )
+  
+  feed <- as_list(feed)
 
   # Decide on type of feed and parse appropriately.
   #
-  type = feed.type(feed)
+  type = feed_type(feed)
   #
   if (type == "RSS") {
     feed <- parse.rss(feed)

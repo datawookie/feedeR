@@ -12,7 +12,7 @@ LazyData: true
 Imports:
     dplyr,
     tibble,
-    XML,
+    xml2,
     lubridate,
     digest,
     readr,

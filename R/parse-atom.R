@@ -24,19 +24,24 @@ get_title <- function(title) {
 #' @references
 #' \url{https://en.wikipedia.org/wiki/Atom_(standard)}
 parse.atom <- function(feed) {
-  feed <- xmlToList(feed$feed)
+  feed <- feed$feed
+  #
+  for (link in feed[names(feed) == "link"]) {
+    link = attributes(link)
+    if (link$rel == "self") break
+  }
   #
   list(
-    title = get_title(feed$title),
-    link  = feed[names(feed) == "link"][[2]] %>% unname %>% filter.link,
-    updated = parse.date(feed$updated),
+    title = get_title(feed$title[[1]]),
+    link  = link$href,
+    updated = parse.date(feed$updated[[1]]),
     items = bind_rows(lapply(feed[names(feed) == "entry"], function(item) {
       tibble(
-        title = get_title(item$title),
-        date  = if(!is.null(item$published)) parse.date(item$published) else
-          if(!is.null(item$updated)) parse.date(item$updated) else NA,
-        link  = if(!is.null(item$origLink)) item$origLink else find.link(item[names(item) == "link"]),
-        description = NA
+        title = get_title(item$title[[1]]),
+        date  = if(!is.null(item$published[[1]])) parse.date(item$published[[1]]) else
+          if(!is.null(item$updated[[1]])) parse.date(item$updated[[1]]) else NA,
+        link  = if(!is.null(item$origLink[[1]])) item$origLink[[1]] else find.link(item[names(item) == "link"]),
+        description = item$content[[1]]
       )
     }))
   )
