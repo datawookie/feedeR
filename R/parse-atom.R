@@ -36,8 +36,7 @@ parse.atom <- function(feed) {
         date  = if(!is.null(item$published)) parse.date(item$published) else
           if(!is.null(item$updated)) parse.date(item$updated) else NA,
         link  = if(!is.null(item$origLink)) item$origLink else find.link(item[names(item) == "link"]),
-        description = NA,
-        stringsAsFactors = FALSE
+        description = NA
       )
     }))
   )
