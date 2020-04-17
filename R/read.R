@@ -37,7 +37,7 @@ feed.extract <- function(url) {
   #
   XML = str_replace_all(XML, "(?<= )&(?= )", "&amp;")
 
-  feed <- xmlTreeParse(xml, options = NOCDATA, asText = TRUE)$doc$children
+  feed <- xmlTreeParse(XML, options = NOCDATA, asText = TRUE)$doc$children
 
   # Decide on type of feed and parse appropriately.
   #
