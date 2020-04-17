@@ -6,9 +6,9 @@ find.link <- function(links) {
     if (any(index)) {
       return(links[index]$link["href"])
     }
-    index = sapply(links, function(n) n["rel"] == "alternate")
+    index = sapply(links, function(n) attributes(n)["rel"] == "alternate")
     if (any(index)) {
-      return(links[index]$link["href"])
+      return(attributes(links[index]$link)$href)
     }
   }
 }
