@@ -4,10 +4,12 @@
 \alias{feed.extract}
 \title{Extract data from feeds}
 \usage{
-feed.extract(url)
+feed.extract(url, encoding = "UTF-8")
 }
 \arguments{
 \item{url}{URL for the feed.}
+
+\item{encoding}{Encoding use to read feed.}
 }
 \value{
 A list containing the following elements:

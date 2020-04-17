@@ -43,7 +43,7 @@ feed.extract <- function(url, encoding = "UTF-8") {
   
   feed <- read_xml(
     XML,
-    options = NOCDATA,
+    options = "NOCDATA",
     encoding = encoding
   )
   
