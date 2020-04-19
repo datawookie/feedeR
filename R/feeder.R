@@ -7,3 +7,7 @@
 #' @importFrom lubridate parse_date_time
 #'
 NULL
+
+# Avoid some "no visible binding" notes with devtools::check().
+#
+globalVariables(c("download.file", "encoding"))
