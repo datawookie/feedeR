@@ -7,3 +7,5 @@ NOTES.txt
 ^feedeR\.Rcheck$
 ^feedeR.*\.tar\.gz$
 ^feedeR.*\.tgz$
+_pkgdown.yml
+docs/
