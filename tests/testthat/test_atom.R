@@ -21,12 +21,12 @@ document = '<?xml version="1.0" encoding="utf-8"?>
 </feed>'
 
 test_that("parse Atom feed", {
-  feed <<- feed.read(document)
+  feed <<- feed_read(document)
   expect_is(feed, "list")
 })
 
 test_that("identify Atom feed", {
-  expect_equal(feed.type(feed), "Atom")
+  expect_equal(feed_type(feed), "Atom")
 })
 
 test_that("parse feed with origLink", {

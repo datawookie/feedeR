@@ -5,12 +5,12 @@ URL = "http://feeds.nature.com/nplants/rss/current"
 document = paste(readLines(URL), collapse = "\n")
 
 test_that("parse RDF feed", {
-  feed <<- feed.read(document)
+  feed <<- feed_read(document)
   expect_is(feed, "list")
 })
 
 test_that("identify RDF feed", {
-  expect_equal(feed.type(feed), "RDF")
+  expect_equal(feed_type(feed), "RDF")
 })
 
 test_that("read RDF feed", {
