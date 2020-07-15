@@ -31,6 +31,12 @@ document = '<?xml version="1.0" encoding="windows-1252"?>
 <link>http://www.feedforall.com</link>
 <pubDate>Tue, 26 Oct 2004 14:01:01 -0500</pubDate>
 </item>
+<item>
+<title>Example of empty description</title>
+<description></description>
+<link>http://www.feedforall.com</link>
+<pubDate>Wed, 15 Jul 2020 17:27:00 +0100</pubDate>
+</item>
 </channel>
 </rss>'
 
@@ -46,3 +52,14 @@ test_that("identify RSS feed", {
 test_that("feed which requires valid User-Agent", {
   expect_is(feed.extract("https://www.glassdoor.com/rss/reviews.rss?id=7745"), "list")
 })
+
+test_that("feed is parsed correctly", {
+  parsed <- parse.rss(feed)
+  expect_is(parsed, "list")
+  expect_equal(parsed$title, "Sample Feed - Favorite RSS Related Software & Resources")
+  expect_null(parsed$link) # should this be NULL?
+  # not testing date as that is tested with the parse.date function
+  expect_equal(dim(parsed$items), c(2,4))
+})
+
+
