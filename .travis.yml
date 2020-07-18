@@ -4,7 +4,6 @@ branches:
   only:
   - master
   - dev
-# https://docs.travis-ci.com/user/notifications/
 notifications:
   email:
     recipients:
@@ -24,6 +23,11 @@ deploy:
   skip_cleanup: true
   local_dir: docs
   target_branch: gh-pages
+  on:
+    branches:
+      only:
+        - master
+        - dev
 
 after_success:
   - Rscript -e 'covr::codecov()'
