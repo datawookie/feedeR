@@ -3,14 +3,6 @@
 
 # feedeR <img src="man/figures/feedeR-hex.png" align="right" alt="" width="120" />
 
-<!-- badges: start -->
-
-[![CRAN
-status](https://www.r-pkg.org/badges/version/feedeR)](https://cran.r-project.org/package=feedeR)
-<!-- badges: end -->
-
-<br>
-
 [![Build
 Status](https://travis-ci.org/DataWookie/feedeR.svg?branch=master)](https://travis-ci.org/DataWookie/feedeR)
 [![GitHub
@@ -38,3 +30,11 @@ For a RSS feed:
 For an Atom feed:
 
     feed.extract("http://journal.r-project.org/rss.atom")
+
+## Similar Projects
+
+  - The [{scifetch}](https://github.com/yufree/scifetch) package has
+    `getrss()`.
+  - The
+    [{tidyRSS}](https://cran.r-project.org/web/packages/tidyRSS/index.html)
+    package.
