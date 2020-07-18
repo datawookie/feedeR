@@ -10,7 +10,10 @@ notifications:
       - andrew@exegetic.biz
     on_success: always
     on_failure: always
-# For test coverage.
+
+r_packages:
+  - pkgdown
+  - hexSticker
 r_github_packages:
   - jimhester/covr
 
