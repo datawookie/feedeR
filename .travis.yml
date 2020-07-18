@@ -14,8 +14,8 @@ notifications:
 r_packages:
   - pkgdown
   - hexSticker
-r_github_packages:
-  - jimhester/covr
+  - here
+  - covr
 addons:
   apt:
     packages:
