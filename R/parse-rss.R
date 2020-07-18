@@ -20,7 +20,7 @@ parse.rss <- function(feed) {
         title = item$title[[1]],
         date  = date,
         link  = if(is.null(item$origLink)) item$link[[1]] else item$origLink[[1]],
-        description = item$description[[1]]
+        description = if(length(item$description)==0) '' else item$description[[1]]
       )
     }))
   )
