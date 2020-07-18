@@ -14,5 +14,18 @@ notifications:
 # For test coverage.
 r_github_packages:
   - jimhester/covr
+
+before_deploy:
+- Rscript inst/hex/logo.R
+- Rscript -e 'pkgdown::build_site()'
+deploy:
+  provider: pages
+  github_token: "$GITHUB_TOKEN"
+  skip_cleanup: true
+  # on:
+  #   branch: master
+  local_dir: docs
+  target_branch: gh-pages
+
 after_success:
   - Rscript -e 'covr::codecov()'
