@@ -7,7 +7,7 @@ parse.rss <- function(feed) {
   feed <- feed$rss[["channel"]]
   #
   list(
-    title = feed$title[[1]],
+    title = str_squish(feed$title[[1]]),
     link  = attributes(feed$link)$href,
     updated = parse.date(feed$lastBuildDate),
     items = bind_rows(lapply(feed[names(feed) == "item"], function(item) {
