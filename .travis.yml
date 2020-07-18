@@ -24,10 +24,7 @@ deploy:
   local_dir: docs
   target_branch: gh-pages
   on:
-    branches:
-      only:
-        - master
-        - dev
+    branch: dev
 
 after_success:
   - Rscript -e 'covr::codecov()'
