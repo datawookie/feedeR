@@ -16,6 +16,10 @@ r_packages:
   - hexSticker
 r_github_packages:
   - jimhester/covr
+addons:
+  apt:
+    packages:
+    - libmagick++-dev
 
 before_deploy:
 - Rscript inst/hex/logo.R
