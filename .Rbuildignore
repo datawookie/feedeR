@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 NOTES.txt
 .travis.yml
+.bumpversion.cfg
 ^README\.Rmd$
 ^\.travis\.yml$
 ^feedeR\.Rcheck$
