@@ -1,6 +1,6 @@
 Package: feedeR
 Type: Package
-Title: Read RSS, Atom and RDF feeds from R
+Title: Read RSS, Atom and RDF Feeds from R
 Version: 0.0.9
 Authors@R: person("Andrew", "Collier", email = "andrew@exegetic.biz", role = c("aut", "cre"))
 Description: Retrieve data from RSS/Atom feeds.
